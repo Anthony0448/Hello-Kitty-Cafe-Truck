@@ -4,6 +4,6 @@ public class Main {
             System.out.printf("Hello Friends #%d%n", i);
         }
 
-        // Test commit and push again
+        // Working once again!
     }
 }
