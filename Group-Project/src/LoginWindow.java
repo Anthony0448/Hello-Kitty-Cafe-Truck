@@ -8,14 +8,19 @@ public class LoginWindow extends Frame {
 
     public LoginWindow() {
         Label usernameLabel = new Label("Username:");
+        add(usernameLabel);
 
         username = new TextField(10);
         add(username);
 
-//        password = new TextField("Password:");
-//        add(password);
+        Label passwordLabel = new Label("Password:");
+        add(passwordLabel);
 
-        setLayout(new GridLayout(3, 1));
+        password = new TextField(10);
+        add(password);
+
+//        setLayout(new GridLayout(4, 1, 5, 5));
+        setLayout(new FlowLayout());
         setTitle("Login");
         setSize(300, 500);
         setVisible(true);
