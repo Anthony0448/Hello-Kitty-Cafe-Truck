@@ -33,7 +33,6 @@ public class Frame1 extends Frame {
         lastName = new TextField(10);
         lastNamePanel.add(lastName);
 
-
         // Now we put the panels for the name within the panel
         // The panel within the frame that is contained in a border layout but is grid layout itself.
         Panel namesPanel = new Panel();
