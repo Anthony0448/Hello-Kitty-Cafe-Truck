@@ -23,6 +23,7 @@ public class Frame1 extends Frame {
         firstName = new TextField(10);
         firstNamePanel.add(firstName);
 
+
         Panel lastNamePanel = new Panel(new FlowLayout(FlowLayout.CENTER));
 
         Label lastNameLabel = new Label("Last name:");
@@ -30,6 +31,7 @@ public class Frame1 extends Frame {
 
         lastName = new TextField(10);
         lastNamePanel.add(lastName);
+
 
         // Now we put the panels for the name within the panel
         // The panel within the frame that is contained in a border layout but is grid layout itself.
@@ -39,8 +41,27 @@ public class Frame1 extends Frame {
         namesPanel.add(firstNamePanel);
         namesPanel.add(lastNamePanel);
 
-        // Put the composite(?) panel with both labels on the North of the frame
-        add(namesPanel, BorderLayout.NORTH);
+        Panel shiftPanel = new Panel(new GridLayout(2,2));
+
+        Label dateLabel = new Label("Date:");
+        shiftPanel.add(dateLabel);
+
+        Label timestamp = new Label("timestamp holder");
+        shiftPanel.add(timestamp);
+
+        Button startShift = new Button("Start");
+        shiftPanel.add(startShift);
+
+        Button endShift = new Button("End");
+        shiftPanel.add(endShift);
+
+        Panel employeeLogin = new Panel(new GridLayout(2,1));
+
+        employeeLogin.add(namesPanel);
+        employeeLogin.add(shiftPanel);
+
+        // Put the composite(?) panel with both both frames on the top
+        add(employeeLogin, BorderLayout.NORTH);
 
         setTitle("Login");
         setSize(300, 500);
