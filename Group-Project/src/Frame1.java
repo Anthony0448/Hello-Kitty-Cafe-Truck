@@ -8,8 +8,11 @@ public class Frame1 extends Frame {
     TextField lastName;
 
     public Frame1() {
-        // The border layout for the whole frame
-        setLayout(new BorderLayout());
+        // The grid layout for the whole frame
+        setLayout(new GridLayout(3,1));
+
+        // Panel 1
+        Panel topPanel = new Panel(new GridLayout(2,1));
 
         // The first and last name labels will be within their own panel so that they stay next to each other when resizing
         // The FlowLayout.Center aligns the components of the frame to the center
@@ -41,6 +44,9 @@ public class Frame1 extends Frame {
         namesPanel.add(firstNamePanel);
         namesPanel.add(lastNamePanel);
 
+        // Add half of the first panel with the employee login
+        topPanel.add(namesPanel);
+
         Panel shiftPanel = new Panel(new GridLayout(2,2));
 
         Label dateLabel = new Label("Date:");
@@ -55,13 +61,41 @@ public class Frame1 extends Frame {
         Button endShift = new Button("End");
         shiftPanel.add(endShift);
 
-        Panel employeeLogin = new Panel(new GridLayout(2,1));
-
-        employeeLogin.add(namesPanel);
-        employeeLogin.add(shiftPanel);
+        // Second half of the first panel with te start and end shift button
+        topPanel.add(shiftPanel);
 
         // Put the composite(?) panel with both both frames on the top
-        add(employeeLogin, BorderLayout.NORTH);
+        add(topPanel);
+
+        /* Start of second panel of the first frame
+         * This will contain the load inventory and show list buttons */
+
+        // 3 rows for the spacer between the top and middle panel
+        Panel middlePanel = new Panel(new GridLayout(3,1));
+
+        // This is a spacer
+        middlePanel.add(new Label());
+
+        Button loadInventoryButton = new Button("Load Inventory");
+        middlePanel.add(loadInventoryButton);
+
+        Button showListButton = new Button("Show List");
+        middlePanel.add(showListButton);
+
+        // Adds to the general Frame
+        add(middlePanel);
+
+        /* Start of the third panel for the first frame
+        * Contains:
+        * A text field to enter a product code number (has a label too)
+        * A text field to add the quantity for that product
+        *
+        * Two buttons:
+        * An "add" button to add the item that is typed in the text field
+        * A "remove" button that removes the item by using the specific line number of that product shown in the invoice
+         */
+
+
 
         setTitle("Login");
         setSize(300, 500);
