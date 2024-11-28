@@ -25,7 +25,6 @@ public class Frame1 extends Frame {
         firstName = new TextField(10);
         firstNamePanel.add(firstName);
 
-
         Panel lastNamePanel = new Panel(new FlowLayout(FlowLayout.CENTER));
 
         Label lastNameLabel = new Label("Last name:");
