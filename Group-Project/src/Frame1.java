@@ -2,12 +2,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class LoginWindow extends Frame {
+public class Frame1 extends Frame {
 
     TextField firstName;
     TextField lastName;
 
-    public LoginWindow() {
+    public Frame1() {
         // The border layout for the whole frame
         setLayout(new BorderLayout());
 
