@@ -1,4 +1,5 @@
 import java.awt.*;
+
 public class Frame2 extends Frame{
     public Frame2(){
         setTitle("Invoice");
