@@ -4,22 +4,22 @@ import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
 
 public class Frame1 extends Frame {
-    public Panel topPanel;
-    public TextField firstName;
-    public TextField lastName;
-    public Button startShiftButton;
-    public Button endShiftButton;
+    // Top panel
+    protected TextField firstName;
+    protected TextField lastName;
+    protected Button startShiftButton;
+    protected Button endShiftButton;
 
-    public Panel middlePanel;
-    public Button loadInventoryButton;
-    public Button showListButton;
+    // Middle panel
+    protected Button loadInventoryButton;
+    protected Button showListButton;
 
-    public Panel bottomPanel;
-    public TextField productTextField;
-    public TextField codeTextField;
-    public TextField quantityTextField;
-    public Button addButton;
-    public Button removeButton;
+    // Bottom panel
+    protected TextField productTextField;
+    protected TextField codeTextField;
+    protected TextField quantityTextField;
+    protected Button addButton;
+    protected Button removeButton;
 
     // Constructor for Frame1 to call each Panel that makes up Frame1
     public Frame1() {
@@ -43,9 +43,9 @@ public class Frame1 extends Frame {
         });
     }
 
-    public Panel createTopPanel() {
+    private Panel createTopPanel() {
         // The composite top Panel
-        topPanel = new Panel(new GridLayout(2,1));
+        Panel topPanel = new Panel(new GridLayout(2, 1));
 
         // The first and last name labels will be within their own panel so that they stay next to each other when resizing
         // The FlowLayout.Center aligns the components of the frame to the center
@@ -104,9 +104,9 @@ public class Frame1 extends Frame {
 
     /* Start of second panel of the first frame
      * This will contain the load inventory and show list buttons */
-    public Panel createMiddlePanel() {
+    private Panel createMiddlePanel() {
         // 3 rows for the spacer between the top and middle panel
-        middlePanel = new Panel(new GridLayout(3,1));
+        Panel middlePanel = new Panel(new GridLayout(3, 1));
 
         // This is a spacer
         middlePanel.add(new Label());
@@ -130,8 +130,8 @@ public class Frame1 extends Frame {
      * An "add" button to add the item that is typed in the text field
      * A "remove" button that removes the item by using the specific line number of that product shown in the invoice
      */
-    public Panel createBottomPanel() {
-        bottomPanel = new Panel(new GridLayout(4,1));
+    private Panel createBottomPanel() {
+        Panel bottomPanel = new Panel(new GridLayout(4, 1));
 
         // Group for the product label and text field
         Panel productGroup = new Panel(new FlowLayout());
