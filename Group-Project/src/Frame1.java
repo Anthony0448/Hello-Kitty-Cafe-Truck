@@ -74,7 +74,7 @@ public class Frame1 extends Frame {
         namesPanel.add(firstNamePanel);
         namesPanel.add(lastNamePanel);
 
-
+        // ************************************************************************************************************
         Panel shiftPanel = new Panel(new GridLayout(2,2));
 
         shiftPanel.add(new Label("Date:"));
@@ -90,6 +90,7 @@ public class Frame1 extends Frame {
         endShiftButton = new Button("End");
         shiftPanel.add(endShiftButton);
 
+        // ************************************************************************************************************
         // Add half of the first panel with the employee login
         topPanel.add(namesPanel);
         // Add the second half of the first panel with the start and end shift button
@@ -156,7 +157,7 @@ public class Frame1 extends Frame {
         composite_Product_Code.add(productGroup);
         composite_Product_Code.add(codeGroup);
 
-
+        // ************************************************************************************************************
         // Quantity middle panel for the bottom panel
         Panel quantityGroup = new Panel(new FlowLayout());
 
@@ -165,6 +166,7 @@ public class Frame1 extends Frame {
         quantityTextField = new TextField(10);
         quantityGroup.add(quantityTextField);
 
+        // ************************************************************************************************************
         // Add and remove buttons for the bottom part of the bottom panel
         Panel addRemoveButtonGroup = new Panel(new FlowLayout());
 
@@ -174,6 +176,7 @@ public class Frame1 extends Frame {
         removeButton = new Button("Remove");
         addRemoveButtonGroup.add(removeButton);
 
+        // ************************************************************************************************************
         // Spacer
         bottomPanel.add(new Label());
 
