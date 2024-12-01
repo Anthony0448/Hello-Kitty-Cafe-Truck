@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 
-public class Frame2_Update extends Frame {
+public class Frame2 extends Frame {
     Button printReceiptButton;
     TextArea itemsTextArea;
     TextField totalBeforeField;
@@ -10,7 +10,7 @@ public class Frame2_Update extends Frame {
     TextField discountAppliedField;
     TextField grandTotalField;
 
-    public Frame2_Update() {
+    public Frame2() {
         setLayout(new GridLayout(2, 1));
 
         add(createItemsPanel());

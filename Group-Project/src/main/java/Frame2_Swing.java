@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 
-public class Frame2 {
+public class Frame2_Swing {
 
     public static void main(String[] args) {
         Frame frame = new Frame("Invoice");
