@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.Date;
 
 public class Frame2 extends Frame {
+    // The button and text fields/area are now all class variables, so that other methods can access them.
     Button printReceiptButton;
     TextArea itemsTextArea;
     TextField totalBeforeField;
@@ -105,7 +106,7 @@ public class Frame2 extends Frame {
                 receiptContent.append("Hello Kitty Stationary Shop\n");
                 receiptContent.append("San Jose, California\n");
                 receiptContent.append("Phone: 123-456-7890\n");
-                receiptContent.append("Date: " + new Date().toString() + "\n\n");
+                receiptContent.append("Date: " + new Date() + "\n\n");
 
                 receiptContent.append("Items:\n");
                 receiptContent.append(itemsTextArea.getText()).append("\n\n");
@@ -121,51 +122,18 @@ public class Frame2 extends Frame {
                 receiptFrame.add(receiptArea, BorderLayout.CENTER);
 
                 receiptFrame.setVisible(true);
+
+                /* A window listener for the receipt frames that close the windows and without stopping the program
+                 * and release the utilized system resources */
+                receiptFrame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        // Release resources used by selected receiptFrame
+                        receiptFrame.dispose();
+                    }
+                });
             }
         });
 
         return summaryPanel;
     }
 }
-
-/*
-    private void receiptButtonActionListener() {
-        // Receipt Frame Logic
-        printReceiptButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Frame receiptFrame = new Frame("Receipt");
-                receiptFrame.setSize(400, 500);
-                receiptFrame.setLayout(new BorderLayout());
-
-                TextArea receiptArea = new TextArea();
-                receiptArea.setEditable(false);
-
-                // Create the receipt content
-                StringBuilder receiptContent = new StringBuilder();
-                receiptContent.append("Hello Kitty Stationary Shop\n");
-                receiptContent.append("San Jose, California\n");
-                receiptContent.append("Phone: 123-456-7890\n");
-                receiptContent.append("Date: " + new Date().toString() + "\n\n");
-
-                receiptContent.append("Items:\n");
-                receiptContent.append(itemsTextArea.getText()).append("\n\n");
-
-                receiptContent.append("Total Before Tax/Discount: " + totalBeforeField.getText() + "\n");
-                receiptContent.append("Total with Tax: " + totalWithTaxField.getText() + "\n");
-                receiptContent.append("Discount Applied: " + discountAppliedField.getText() + "\n");
-                receiptContent.append("Grand Total: " + grandTotalField.getText() + "\n\n");
-
-                receiptContent.append("Thank you for shopping with us!\n");
-
-                receiptArea.setText(receiptContent.toString());
-                receiptFrame.add(receiptArea, BorderLayout.CENTER);
-
-                //receiptFrame.setVisible(true);
-            }
-        });
-    }
-}
-*/
-
-
