@@ -2,44 +2,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 
-public class Frame2_Update extends Frame {
-    Button printReceiptButton;
-    TextArea itemsTextArea;
-    TextField totalBeforeField;
-    TextField totalWithTaxField;
-    TextField discountAppliedField;
-    TextField grandTotalField;
+public class Frame2 {
 
-    public Frame2_Update() {
-        setLayout(new GridLayout(2, 1));
+    public static void main(String[] args) {
+        Frame frame = new Frame("Invoice");
+        frame.setSize(600, 600);
+        frame.setLayout(new GridLayout(2, 1));
 
-        add(createItemsPanel());
-        add(createSummaryPanel());
-
-        setTitle("Invoice");
-        setSize(600, 600);
-        setVisible(true);
-
-        // Stops program when closing Frame
-        addWindowListener(new WindowAdapter() {
-            // Window closing method
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-    }
-
-    private Panel createItemsPanel() {
+        // Panel 1
         Panel itemsPanel = new Panel(new BorderLayout());
-
         itemsPanel.add(new Label("Items and Quantities"), BorderLayout.NORTH);
-        itemsTextArea = new TextArea();
+        TextArea itemsTextArea = new TextArea();
         itemsPanel.add(itemsTextArea, BorderLayout.CENTER);
+        frame.add(itemsPanel);
 
-        return itemsPanel;
-    }
-
-    private Panel createSummaryPanel() {
+        // Panel 2
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
 
         // Sub-panel for tax, discount, and totals
@@ -61,22 +38,22 @@ public class Frame2_Update extends Frame {
         taxDiscountPanel.add(new Label(""));
 
         taxDiscountPanel.add(new Label("Total Before Tax/Discount:"));
-        totalBeforeField = new TextField("0.00");
+        TextField totalBeforeField = new TextField("0.00");
         totalBeforeField.setEditable(false);
         taxDiscountPanel.add(totalBeforeField);
 
         taxDiscountPanel.add(new Label("Total with Tax:"));
-        totalWithTaxField = new TextField("0.00");
+        TextField totalWithTaxField = new TextField("0.00");
         totalWithTaxField.setEditable(false);
         taxDiscountPanel.add(totalWithTaxField);
 
         taxDiscountPanel.add(new Label("Discount Applied:"));
-        discountAppliedField = new TextField("0.00");
+        TextField discountAppliedField = new TextField("0.00");
         discountAppliedField.setEditable(false);
         taxDiscountPanel.add(discountAppliedField);
 
         taxDiscountPanel.add(new Label("Grand Total:"));
-        grandTotalField = new TextField("0.00");
+        TextField grandTotalField = new TextField("0.00");
         grandTotalField.setEditable(false);
         taxDiscountPanel.add(grandTotalField);
 
@@ -84,10 +61,11 @@ public class Frame2_Update extends Frame {
 
         // Sub-panel for Print Receipt button
         Panel buttonPanel = new Panel();
-        // I made the button into a class variable
-        printReceiptButton = new Button("Print Receipt");
+        Button printReceiptButton = new Button("Print Receipt");
         buttonPanel.add(printReceiptButton);
         summaryPanel.add(buttonPanel);
+
+        frame.add(summaryPanel);
 
         // Receipt Frame Logic
         printReceiptButton.addActionListener(new ActionListener() {
@@ -124,48 +102,14 @@ public class Frame2_Update extends Frame {
             }
         });
 
-        return summaryPanel;
-    }
-}
+        frame.setVisible(true);
 
-/*
-    private void receiptButtonActionListener() {
-        // Receipt Frame Logic
-        printReceiptButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Frame receiptFrame = new Frame("Receipt");
-                receiptFrame.setSize(400, 500);
-                receiptFrame.setLayout(new BorderLayout());
-
-                TextArea receiptArea = new TextArea();
-                receiptArea.setEditable(false);
-
-                // Create the receipt content
-                StringBuilder receiptContent = new StringBuilder();
-                receiptContent.append("Hello Kitty Stationary Shop\n");
-                receiptContent.append("San Jose, California\n");
-                receiptContent.append("Phone: 123-456-7890\n");
-                receiptContent.append("Date: " + new Date().toString() + "\n\n");
-
-                receiptContent.append("Items:\n");
-                receiptContent.append(itemsTextArea.getText()).append("\n\n");
-
-                receiptContent.append("Total Before Tax/Discount: " + totalBeforeField.getText() + "\n");
-                receiptContent.append("Total with Tax: " + totalWithTaxField.getText() + "\n");
-                receiptContent.append("Discount Applied: " + discountAppliedField.getText() + "\n");
-                receiptContent.append("Grand Total: " + grandTotalField.getText() + "\n\n");
-
-                receiptContent.append("Thank you for shopping with us!\n");
-
-                receiptArea.setText(receiptContent.toString());
-                receiptFrame.add(receiptArea, BorderLayout.CENTER);
-
-                //receiptFrame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
             }
         });
     }
 }
-*/
 
 
