@@ -5,18 +5,18 @@ import java.util.Date;
 public class Frame2 {
 
     public static void main(String[] args) {
-        Frame frame = new Frame("Invoice System");
+        Frame frame = new Frame("Invoice");
         frame.setSize(600, 600);
         frame.setLayout(new GridLayout(2, 1));
 
-        // Panel 1: Items and quantities panel
+        // Panel 1
         Panel itemsPanel = new Panel(new BorderLayout());
         itemsPanel.add(new Label("Items and Quantities"), BorderLayout.NORTH);
         TextArea itemsTextArea = new TextArea();
         itemsPanel.add(itemsTextArea, BorderLayout.CENTER);
         frame.add(itemsPanel);
 
-        // Panel 2: Summary and controls panel
+        // Panel 2
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
 
         // Sub-panel for tax, discount, and totals
