@@ -5,13 +5,16 @@ public class StoreInfo {
     private String city;
     private double tax_percentage;
 
-/*    public StoreInfo(String store_name, String phone_number, String state, String city, double tax_percentage) {
+    // Jackson requires this constructor
+    public StoreInfo() {}
+
+    public StoreInfo(String store_name, String phone_number, String state, String city, double tax_percentage) {
         this.store_name = store_name;
         this.phone_number = phone_number;
-        this.city = city;
         this.state = state;
+        this.city = city;
         this.tax_percentage = tax_percentage;
-    }*/
+    }
 
     public void setStore_name(String store_name) {
         this.store_name = store_name;
