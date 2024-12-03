@@ -26,7 +26,6 @@ public class JsonToObject {
             System.out.println("Tax Percentage: " + storeInfo.getTax_percentage());
 
             // Access product information
-            storeInfo.product_info
             List<Product> products = storeData.getProduct_info();
             for (Product product : products) {
                 System.out.println("Product Name: " + product.getProductName());
