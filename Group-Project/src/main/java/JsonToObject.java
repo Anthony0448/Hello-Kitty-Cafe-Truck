@@ -11,9 +11,8 @@ public class JsonToObject {
 
     public JsonToObject() {
         try {
-            // Create ObjectMapper
+            // Create ObjectMapper to read and write the data from a JSON
             ObjectMapper objectMapper = new ObjectMapper();
-
 
             // Load JSON file from resources folder
             InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("Json.json");
@@ -21,25 +20,14 @@ public class JsonToObject {
                 throw new IllegalArgumentException("Where did Jason go?!");
             }
 
+            // Reads the file to convert it into a map of string keys and object values
             Map<String, Object> data = objectMapper.readValue(inputStream, new TypeReference<Map<String, Object>>() {});
 
+            // Extracts the store_info section of the JSON into a StoreInfo object
             storeInfo = objectMapper.convertValue(data.get("store_info"), StoreInfo.class);
-            // Add each product object to a class list
+
+            // Extracts the product_info section of the JSON into an arraylist of Product objects
             products = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
-
-            System.out.println("Store Name: " + storeInfo.getStore_name());
-            System.out.println("Phone Number: " + storeInfo.getPhone_number());
-            System.out.println("City: " + storeInfo.getCity());
-            System.out.println("State: " + storeInfo.getState());
-            System.out.println("Tax Percentage: " + storeInfo.getTax_percentage());
-
-            for (Product product : products) {
-                System.out.println("Product Name: " + product.getProductName());
-                System.out.println("Product Code: " + product.getProductCode());
-                System.out.println("Price: " + product.getPrice());
-                System.out.println("Description: " + product.getDescription());
-                System.out.println("---------------");
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
