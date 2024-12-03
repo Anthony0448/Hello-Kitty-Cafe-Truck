@@ -1,5 +1,4 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -17,6 +16,7 @@ public class JsonToObject {
 
             StoreData storeData = objectMapper.readValue(inputStream, StoreData.class);
 
+            // Extract the storeInfo object from storeData
             StoreInfo storeInfo = storeData.getStore_info();
 
             System.out.println("Store Name: " + storeInfo.getStore_name());
@@ -35,6 +35,7 @@ public class JsonToObject {
                 System.out.println("Description: " + product.getDescription());
                 System.out.println("---------------");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
