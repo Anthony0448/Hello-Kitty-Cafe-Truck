@@ -1,14 +1,19 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 public class JsonToObject {
+    public List<Product> products;
+    public StoreInfo storeInfo;
+
     public JsonToObject() {
         try {
             // Create ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
+
 
             // Load JSON file from resources folder
             InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("Json.json");
@@ -18,8 +23,9 @@ public class JsonToObject {
 
             Map<String, Object> data = objectMapper.readValue(inputStream, new TypeReference<Map<String, Object>>() {});
 
-            StoreInfo storeInfo = objectMapper.convertValue(data.get("store_info"), StoreInfo.class);
-            List<Product> products = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
+            storeInfo = objectMapper.convertValue(data.get("store_info"), StoreInfo.class);
+            // Add each product object to a class list
+            products = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
 
             System.out.println("Store Name: " + storeInfo.getStore_name());
             System.out.println("Phone Number: " + storeInfo.getPhone_number());

@@ -1,8 +1,19 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StoreInfo {
+    @JsonProperty("store_name")
     private String store_name;
+
+    @JsonProperty("phone_number")
     private String phone_number;
+
+    @JsonProperty("state")
     private String state;
+
+    @JsonProperty("city")
     private String city;
+
+    @JsonProperty("tax_percentage")
     private double tax_percentage;
 
     // Jackson requires this constructor
