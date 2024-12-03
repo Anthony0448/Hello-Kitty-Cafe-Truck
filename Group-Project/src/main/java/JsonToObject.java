@@ -1,6 +1,8 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class JsonToObject {
     public JsonToObject() {
@@ -14,10 +16,10 @@ public class JsonToObject {
                 throw new IllegalArgumentException("Where did Jason go?!");
             }
 
-            StoreData storeData = objectMapper.readValue(inputStream, StoreData.class);
+            Map<String, Object> data = objectMapper.readValue(inputStream, new TypeReference<Map<String, Object>>() {});
 
-            // Extract the storeInfo object from storeData
-            StoreInfo storeInfo = storeData.getStore_info();
+            StoreInfo storeInfo = objectMapper.convertValue(data.get("store_info"), StoreInfo.class);
+            List<Product> products = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
 
             System.out.println("Store Name: " + storeInfo.getStore_name());
             System.out.println("Phone Number: " + storeInfo.getPhone_number());
@@ -25,8 +27,6 @@ public class JsonToObject {
             System.out.println("State: " + storeInfo.getState());
             System.out.println("Tax Percentage: " + storeInfo.getTax_percentage());
 
-            // Access product information
-            List<Product> products = storeData.getProduct_info();
             for (Product product : products) {
                 System.out.println("Product Name: " + product.getProductName());
                 System.out.println("Product Code: " + product.getProductCode());

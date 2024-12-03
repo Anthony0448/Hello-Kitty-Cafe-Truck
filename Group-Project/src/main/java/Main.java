@@ -12,7 +12,7 @@ public class Main {
         //new Frame2();
 
 
-        new JsonToObject();
+        JsonToObject jsonToObject = new JsonToObject();
 
 /*        // JSON test
         try {
