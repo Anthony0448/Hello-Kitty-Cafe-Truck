@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
 
 public class Frame1 extends Frame {
+    protected JsonToObject jsonToObject;
+
     // Top panel
     protected TextField firstNameTextField;
     protected TextField lastNameTextField;
@@ -20,9 +22,6 @@ public class Frame1 extends Frame {
     protected Button showListButton;
     protected ZonedDateTime loginTime;
 
-    // Object that when instantiated reads JSON and sorts data into objects
-    JsonToObject jsonToObject;
-
     // Bottom panel
     protected TextField productTextField;
     protected TextField codeTextField;
@@ -31,7 +30,10 @@ public class Frame1 extends Frame {
     protected Button removeButton;
 
     // Constructor for Frame1 to call each Panel that makes up Frame1
-    public Frame1() {
+    public Frame1(JsonToObject jsonToObject) {
+        // By reference
+        this.jsonToObject = jsonToObject;
+
         setLayout(new GridLayout(3,1));
 
         // Add the composite panels into the main Frame
@@ -149,7 +151,7 @@ public class Frame1 extends Frame {
         loadInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jsonToObject = new JsonToObject();
+                jsonToObject.parseJson();
             }
         });
 

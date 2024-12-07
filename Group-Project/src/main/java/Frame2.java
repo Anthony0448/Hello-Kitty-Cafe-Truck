@@ -11,7 +11,11 @@ public class Frame2 extends Frame {
     TextField discountAppliedField;
     TextField grandTotalField;
 
-    public Frame2() {
+    protected JsonToObject jsonToObject;
+
+    public Frame2(JsonToObject jsonToObject) {
+        this.jsonToObject = jsonToObject;
+
         setLayout(new GridLayout(2, 1));
 
         add(createItemsPanel());

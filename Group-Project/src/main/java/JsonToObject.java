@@ -10,6 +10,10 @@ public class JsonToObject {
     public StoreInfo storeInfo;
 
     public JsonToObject() {
+        System.out.println("JsonToObject has been instantiated");
+    }
+
+    public void parseJson() {
         try {
             // Create ObjectMapper to read and write the data from a JSON
             ObjectMapper objectMapper = new ObjectMapper();
