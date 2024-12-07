@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class Frame1 extends Frame {
     protected JsonToObject jsonToObject;
@@ -20,7 +21,8 @@ public class Frame1 extends Frame {
     // Middle panel
     protected Button loadInventoryButton;
     protected Button showListButton;
-    protected ZonedDateTime loginTime;
+    protected TextField startTime;
+    protected TextField endTime;
 
     // Bottom panel
     protected TextField productTextField;
@@ -88,16 +90,6 @@ public class Frame1 extends Frame {
         // ************************************************************************************************************
         Panel shiftPanel = new Panel(new GridLayout(2,2));
 
-        shiftPanel.add(new Label("Start time:"));
-
-        // Timestamp [THIS IS NOT WORKING AS INTENDED THIS IS A PLACEHOLDER]
-        //shiftPanel.add(new Label(ZonedDateTime.now().toString()));
-        // Needs a class variable to store start and end
-        //shiftPanel.add(new Label("TIMESTAMP PLACEHOLDER"));
-        Label loginTimeLabel = new Label("");
-        loginTime = ZonedDateTime.now();
-        shiftPanel.add(loginTimeLabel);
-
         // The buttons will be class variables since they will be used for action listeners
         startShiftButton = new Button("Start");
         shiftPanel.add(startShiftButton);
@@ -121,7 +113,24 @@ public class Frame1 extends Frame {
             }
         });
 
+        Panel startEndTimeGroup = new Panel(new GridLayout(2,2));
+
+        startEndTimeGroup.add(new Label("Start time:"));
+        startTime = new TextField(30);
+        startEndTimeGroup.add(startTime);
+
+        startShiftButton.addActionListener(e -> startTime.setText(ZonedDateTime.now().toString()));
+
+        startEndTimeGroup.add(new Label("End time:"));
+        endTime = new TextField(30);
+        startEndTimeGroup.add(endTime);
+
+        endShiftButton.addActionListener(e -> endTime.setText(ZonedDateTime.now().toString()));
+
+
         // ************************************************************************************************************
+        shiftPanel.add(startEndTimeGroup);
+
         // Add half of the first panel with the employee login
         topPanel.add(namesPanel);
         // Add the second half of the first panel with the start and end shift button
