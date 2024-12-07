@@ -3,20 +3,9 @@ public class Main {
         Frame1 frame1 = new Frame1();
         Frame2 frame2 = new Frame2();
 
-        JsonToObject jsonToObject = new JsonToObject();
+        /* Instantiation for JsonToObject now under the action listener for loadInventoryButton
+        * Currently show list is not working as intended, but for now the information is printed to the console
+         */
 
-        System.out.println("Store Name: " + jsonToObject.storeInfo.getStore_name());
-        System.out.println("Phone Number: " + jsonToObject.storeInfo.getPhone_number());
-        System.out.println("City: " + jsonToObject.storeInfo.getCity());
-        System.out.println("State: " + jsonToObject.storeInfo.getState());
-        System.out.println("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage());
-
-        for (Product product : jsonToObject.listOfProducts) {
-            System.out.println("Product Name: " + product.getProductName());
-            System.out.println("Product Code: " + product.getProductCode());
-            System.out.println("Price: " + product.getPrice());
-            System.out.println("Description: " + product.getDescription());
-            System.out.println("---------------");
-        }
     }
 }

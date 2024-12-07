@@ -20,6 +20,9 @@ public class Frame1 extends Frame {
     protected Button showListButton;
     protected ZonedDateTime loginTime;
 
+    // Object that when instantiated reads JSON and sorts data into objects
+    JsonToObject jsonToObject;
+
     // Bottom panel
     protected TextField productTextField;
     protected TextField codeTextField;
@@ -142,8 +145,35 @@ public class Frame1 extends Frame {
         loadInventoryButton = new Button("Load Inventory");
         middlePanel.add(loadInventoryButton);
 
+        // Action listener for start shift button that reads the JSON file and puts the data into objects Product and StoreInfo
+        loadInventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jsonToObject = new JsonToObject();
+            }
+        });
+
         showListButton = new Button("Show List");
         middlePanel.add(showListButton);
+
+        showListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Store Name: " + jsonToObject.storeInfo.getStore_name());
+                System.out.println("Phone Number: " + jsonToObject.storeInfo.getPhone_number());
+                System.out.println("City: " + jsonToObject.storeInfo.getCity());
+                System.out.println("State: " + jsonToObject.storeInfo.getState());
+                System.out.println("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage());
+
+                for (Product product : jsonToObject.listOfProducts) {
+                    System.out.println("Product Name: " + product.getProductName());
+                    System.out.println("Product Code: " + product.getProductCode());
+                    System.out.println("Price: " + product.getPrice());
+                    System.out.println("Description: " + product.getDescription());
+                    System.out.println("---------------");
+                }
+            }
+        });
 
         return middlePanel;
     }
