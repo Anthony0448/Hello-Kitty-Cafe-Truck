@@ -4,7 +4,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
-import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 public class Frame1 extends Frame {
     protected JsonToObject jsonToObject;
@@ -30,6 +31,9 @@ public class Frame1 extends Frame {
     protected TextField quantityTextField;
     protected Button addButton;
     protected Button removeButton;
+    TextField productCodeField, quantityField;
+    Choice itemsComboBox;
+    TextArea itemsTextArea;
 
     // Constructor for Frame1 to call each Panel that makes up Frame1
     public Frame1(JsonToObject jsonToObject) {
@@ -198,6 +202,18 @@ public class Frame1 extends Frame {
      * An "add" button to add the item that is typed in the text field
      * A "remove" button that removes the item by using the specific line number of that product shown in the invoice
      */
+  
+     addButton.addActionListener(e -> {
+        String productCode = productCodeField.getText().trim();
+        String quantityText = quantityField.getText().trim();
+    
+        // Check if both fields are filled
+        if (productCode.isEmpty() || quantityText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter both product code and quantity.");
+            return;
+        }
+     });
+    
     private Panel createBottomPanel() {
         Panel bottomPanel = new Panel(new GridLayout(4, 1));
 
