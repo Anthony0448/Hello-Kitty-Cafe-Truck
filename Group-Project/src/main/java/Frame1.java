@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class Frame1 extends Frame {
     // Top panel
@@ -13,6 +16,7 @@ public class Frame1 extends Frame {
     // Middle panel
     protected Button loadInventoryButton;
     protected Button showListButton;
+    protected ZonedDateTime loginTime;
 
     // Bottom panel
     protected TextField productTextField;
@@ -81,7 +85,11 @@ public class Frame1 extends Frame {
 
         // Timestamp [THIS IS NOT WORKING AS INTENDED THIS IS A PLACEHOLDER]
         //shiftPanel.add(new Label(ZonedDateTime.now().toString()));
-        shiftPanel.add(new Label("TIMESTAMP PLACEHOLDER"));
+        // Needs a class variable to store start and end
+        //shiftPanel.add(new Label("TIMESTAMP PLACEHOLDER"));
+        Label loginTimeLabel = new Label("");
+        loginTime = ZonedDateTime.now();
+        shiftPanel.add(loginTimeLabel);
 
         // The buttons will be class variables since they will be used for action listeners
         startShiftButton = new Button("Start");
@@ -89,6 +97,14 @@ public class Frame1 extends Frame {
 
         endShiftButton = new Button("End");
         shiftPanel.add(endShiftButton);
+
+        startShiftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                shiftPanel.repaint();
+                System.out.println("Test");
+            }
+        });
 
         // ************************************************************************************************************
         // Add half of the first panel with the employee login

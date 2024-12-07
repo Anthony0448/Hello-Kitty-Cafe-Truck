@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonToObject {
-    public List<Product> products;
+    public List<Product> listOfProducts;
     public StoreInfo storeInfo;
 
     public JsonToObject() {
@@ -27,7 +27,7 @@ public class JsonToObject {
             storeInfo = objectMapper.convertValue(data.get("store_info"), StoreInfo.class);
 
             // Extracts the product_info section of the JSON into an arraylist of Product objects
-            products = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
+            listOfProducts = objectMapper.convertValue(data.get("product_info"), new TypeReference<List<Product>>() {});
 
         } catch (Exception e) {
             e.printStackTrace();
