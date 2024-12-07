@@ -4,14 +4,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 public class Frame1 extends Frame {
     // Top panel
-    protected TextField firstName;
-    protected TextField lastName;
+    protected TextField firstNameTextField;
+    protected TextField lastNameTextField;
     protected Button startShiftButton;
     protected Button endShiftButton;
+
+    protected String firstName;
+    protected String lastName;
 
     // Middle panel
     protected Button loadInventoryButton;
@@ -61,15 +63,15 @@ public class Frame1 extends Frame {
 
         /* Adds the name text field on the right side
          * This is a class variable since we will need to pass the value of what is inputted in the text field */
-        firstName = new TextField(10);
-        firstNamePanel.add(firstName);
+        firstNameTextField = new TextField(10);
+        firstNamePanel.add(firstNameTextField);
 
         Panel lastNamePanel = new Panel(new FlowLayout(FlowLayout.CENTER));
 
         lastNamePanel.add(new Label("Last name:"));
 
-        lastName = new TextField(10);
-        lastNamePanel.add(lastName);
+        lastNameTextField = new TextField(10);
+        lastNamePanel.add(lastNameTextField);
 
         // Now we put the panels for the name within the panel
         // The panel within the frame that is contained in a border layout but is grid layout itself.
@@ -81,7 +83,7 @@ public class Frame1 extends Frame {
         // ************************************************************************************************************
         Panel shiftPanel = new Panel(new GridLayout(2,2));
 
-        shiftPanel.add(new Label("Date:"));
+        shiftPanel.add(new Label("Start time:"));
 
         // Timestamp [THIS IS NOT WORKING AS INTENDED THIS IS A PLACEHOLDER]
         //shiftPanel.add(new Label(ZonedDateTime.now().toString()));
@@ -98,11 +100,19 @@ public class Frame1 extends Frame {
         endShiftButton = new Button("End");
         shiftPanel.add(endShiftButton);
 
+        // Action listener for saving first name and last name to corresponding variable on button press
         startShiftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                shiftPanel.repaint();
-                System.out.println("Test");
+                // shiftPanel.repaint();
+
+                // Save text field input to first name variable
+                firstName = firstNameTextField.getText();
+                // Testing variable data is saved
+                System.out.println("first: " + firstName);
+
+                lastName = lastNameTextField.getText();
+                System.out.println("last: " + lastName);
             }
         });
 
