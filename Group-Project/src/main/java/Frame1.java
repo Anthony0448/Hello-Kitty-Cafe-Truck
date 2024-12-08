@@ -255,6 +255,10 @@ public class Frame1 extends Frame {
             }
 
                 System.out.println("Removed product with code: " + productCode);
+                
+                if (frame2 != null) {
+                    frame2.updateInventoryDisplay();
+                }
         });
 
         return bottomPanel;
