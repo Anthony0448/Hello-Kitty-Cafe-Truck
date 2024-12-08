@@ -223,7 +223,7 @@ public class Frame1 extends Frame {
         removeButton = new Button("Remove");
         addRemoveButtonGroup.add(removeButton);
         bottomPanel.add(addRemoveButtonGroup);
-    
+
         // Adding action listeners to buttons
         addButton.addActionListener(e -> {
             // Code to handle adding a product
@@ -238,14 +238,15 @@ public class Frame1 extends Frame {
                 System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
 
 
-                System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
+                System.out.println("Added product " + jsonToObject.getProductByCode(productCode).getProductName() +
+                        " with code: " + productCode + " and quantity: " + quantity);
             }
             else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
             }
             frame2.updateItemsTextArea(productCode, quantity);
         });
-    
+
         removeButton.addActionListener(e -> {
             // Code to handle removing a product
             String productCode = codeTextField.getText();
@@ -254,7 +255,8 @@ public class Frame1 extends Frame {
                 jsonToObject.getProductByCode(productCode).setQuantity(0);
             }
 
-                System.out.println("Removed product with code: " + productCode);
+            System.out.println("Removed product " + jsonToObject.getProductByCode(productCode).getProductName() +
+                    " with code: " + productCode);
         });
 
         return bottomPanel;
