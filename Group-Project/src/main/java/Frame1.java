@@ -246,7 +246,12 @@ public class Frame1 extends Frame {
         removeButton.addActionListener(e -> {
             // Code to handle removing a product
             String productCode = codeTextField.getText();
-            System.out.println("Removed product with code: " + productCode);
+
+            if (jsonToObject.getProductByCode(productCode) != null) {
+                jsonToObject.getProductByCode(productCode).setQuantity(0);
+            }
+
+                System.out.println("Removed product with code: " + productCode);
         });
 
         return bottomPanel;
