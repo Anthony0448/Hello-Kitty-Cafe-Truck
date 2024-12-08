@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public class Frame1 extends Frame {
     protected JsonToObject jsonToObject;
@@ -150,14 +151,24 @@ public class Frame1 extends Frame {
             if (productCodeTextField.getText().contains("*")) {
                 String productCodeTextFieldNoAsterisk = productCodeTextField.getText().replace("*", "");
 
+                // Counter to display no search results found if no products match the code
+                boolean successfulSearch = false;
+
                 for (Product product : jsonToObject.listOfProducts) {
                     if (product.getProductCode().contains(productCodeTextFieldNoAsterisk)) {
+                        successfulSearch = true;
+
                         inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
                         inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
                         inventoryTextArea.append("Price: " + product.getPrice() + '\n');
                         inventoryTextArea.append("Description: " + product.getDescription() + '\n');
                         inventoryTextArea.append("---------------" + '\n');
                     }
+                }
+
+                // If successfulSearch is false then print out message
+                if (!successfulSearch) {
+                    inventoryTextArea.append("No product(s) found with the sequence: " + productCodeTextFieldNoAsterisk);
                 }
             } else {
                 for (Product product : jsonToObject.listOfProducts) {
@@ -243,15 +254,32 @@ public class Frame1 extends Frame {
                 jsonToObject.getProductByCode(productCode).setQuantity(quantity);
                 System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
 
-
                 System.out.println("Added product " + jsonToObject.getProductByCode(productCode).getProductName() +
                         " with code: " + productCode + " and quantity: " + quantity);
+
+                frame2.updateItemsTextArea(productCode, quantity);
             }
             else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
+
+                Frame notFound = new Frame("Invalid Product Code");
+                notFound.setSize(200, 100);
+                notFound.setLayout(new FlowLayout());
+
+                notFound.add(new  Label("Invalid product code"));
+
+                Button okButton = new Button("OK");
+                notFound.add(okButton);
+
+                okButton.addActionListener(e1 -> {
+                    notFound.dispose();
+                });
+
+                notFound.setVisible(true);
             }
 
-            frame2.updateItemsTextArea(productCode, quantity);
+            // Placed into if statement
+            //frame2.updateItemsTextArea(productCode, quantity);
         });
 
         removeButton.addActionListener(e -> {
