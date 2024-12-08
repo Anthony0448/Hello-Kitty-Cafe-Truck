@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 public class Frame1 extends Frame {
     protected JsonToObject jsonToObject;
@@ -20,7 +19,7 @@ public class Frame1 extends Frame {
 
     // Middle panel
     protected Button loadInventoryButton;
-    protected Button showListButton;
+    protected Button showInventoryButton;
     protected TextField startTime;
     protected TextField endTime;
 
@@ -36,15 +35,15 @@ public class Frame1 extends Frame {
         // By reference
         this.jsonToObject = jsonToObject;
 
-        setLayout(new GridLayout(3,1));
+        setLayout(new BorderLayout());
 
         // Add the composite panels into the main Frame
-        add(createTopPanel());
-        add(createMiddlePanel());
-        add(createBottomPanel());
+        add(createTopPanel(), BorderLayout.NORTH);
+        add(createMiddlePanel(), BorderLayout.CENTER);
+        add(createBottomPanel(), BorderLayout.SOUTH);
 
         setTitle("Login");
-        setSize(300, 700);
+        setSize(400, 400);
         setVisible(true);
 
         // Stops program when closing Frame
@@ -58,86 +57,60 @@ public class Frame1 extends Frame {
 
     private Panel createTopPanel() {
         // The composite top Panel
-        Panel topPanel = new Panel(new GridLayout(2, 1));
+        Panel topPanel = new Panel(new GridLayout(3, 1));
 
-        // The first and last name labels will be within their own panel so that they stay next to each other when resizing
-        // The FlowLayout.Center aligns the components of the frame to the center
-        Panel firstNamePanel = new Panel(new FlowLayout(FlowLayout.CENTER));
+        // namePanel to hold a 2x2 of first name, first name input, last name, last name input
+        Panel namePanel = new Panel(new GridLayout(2, 2));
 
-        /* Adds the name label on the left of the first name panel
-         * I did not make this a new Label variable since this is never updated */
-        firstNamePanel.add(new Label("First name:"));
-
-        /* Adds the name text field on the right side
-         * This is a class variable since we will need to pass the value of what is inputted in the text field */
+        // Label shows the text on the Panel
+        namePanel.add(new Label("First Name:"));
         firstNameTextField = new TextField(10);
-        firstNamePanel.add(firstNameTextField);
+        namePanel.add(firstNameTextField);
 
-        Panel lastNamePanel = new Panel(new FlowLayout(FlowLayout.CENTER));
-
-        lastNamePanel.add(new Label("Last name:"));
-
+        namePanel.add(new Label("Last Name:"));
         lastNameTextField = new TextField(10);
-        lastNamePanel.add(lastNameTextField);
-
-        // Now we put the panels for the name within the panel
-        // The panel within the frame that is contained in a border layout but is grid layout itself.
-        Panel namesPanel = new Panel(new GridLayout(2, 1));
-
-        namesPanel.add(firstNamePanel);
-        namesPanel.add(lastNamePanel);
+        namePanel.add(lastNameTextField);
 
         // ************************************************************************************************************
-        Panel shiftPanel = new Panel(new GridLayout(2,2));
+        Panel shiftPanel = new Panel(new FlowLayout());
 
-        // The buttons will be class variables since they will be used for action listeners
-        startShiftButton = new Button("Start");
+        startShiftButton = new Button("Start Shift");
         shiftPanel.add(startShiftButton);
 
-        endShiftButton = new Button("End");
+        endShiftButton = new Button("End Shift");
         shiftPanel.add(endShiftButton);
 
         // Action listener for saving first name and last name to corresponding variable on button press
-        startShiftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // shiftPanel.repaint();
+        startShiftButton.addActionListener(e -> {
+            firstName = firstNameTextField.getText();
+            lastName = lastNameTextField.getText();
 
-                // Save text field input to first name variable
-                firstName = firstNameTextField.getText();
-                // Testing variable data is saved
-                System.out.println("first: " + firstName);
-
-                lastName = lastNameTextField.getText();
-                System.out.println("last: " + lastName);
-            }
+            startTime.setText(ZonedDateTime.now().toString());
+            System.out.println("Shift started for: " + firstName + " " + lastName + " at: " + startTime.getText());
         });
 
-        Panel startEndTimeGroup = new Panel(new GridLayout(2,2));
-
-        startEndTimeGroup.add(new Label("Start time:"));
-        startTime = new TextField(30);
-        startEndTimeGroup.add(startTime);
-
-        startShiftButton.addActionListener(e -> startTime.setText(ZonedDateTime.now().toString()));
-
-        startEndTimeGroup.add(new Label("End time:"));
-        endTime = new TextField(30);
-        startEndTimeGroup.add(endTime);
-
-        endShiftButton.addActionListener(e -> endTime.setText(ZonedDateTime.now().toString()));
-
+        endShiftButton.addActionListener(e -> {
+            endTime.setText(ZonedDateTime.now().toString());
+        });
 
         // ************************************************************************************************************
-        shiftPanel.add(startEndTimeGroup);
 
-        // Add half of the first panel with the employee login
-        topPanel.add(namesPanel);
-        // Add the second half of the first panel with the start and end shift button
+        // Time display
+        Panel timePanel = new Panel(new GridLayout(2, 2));
+        timePanel.add(new Label("Start Time:"));
+        startTime = new TextField(20);
+        timePanel.add(startTime);
+        timePanel.add(new Label("End Time:"));
+        endTime = new TextField(20);
+        timePanel.add(endTime);
+
+        // ************************************************************************************************************
+        // Add top of the first panel with the employee login
+        topPanel.add(namePanel);
+        // Add the second part of the first panel with the start and end shift button
         topPanel.add(shiftPanel);
-
-        // Put the composite(?) panel with both both frames on the top
-        //add(topPanel);
+        // Panel that shows the start and end times
+        topPanel.add(timePanel);
 
         // Pass back the Panel object so it can be added to the main Frame with add();
         return topPanel;
@@ -146,28 +119,23 @@ public class Frame1 extends Frame {
     /* Start of second panel of the first frame
      * This will contain the load inventory and show list buttons */
     private Panel createMiddlePanel() {
-        // 3 rows for the spacer between the top and middle panel
-        Panel middlePanel = new Panel(new GridLayout(3, 1));
+        Panel middlePanel = new Panel(new FlowLayout());
 
-        // This is a spacer
-        middlePanel.add(new Label());
-
-        // Buttons will use event listeners; hence, class variables
         loadInventoryButton = new Button("Load Inventory");
         middlePanel.add(loadInventoryButton);
 
+        showInventoryButton = new Button("Show Inventory");
+        middlePanel.add(showInventoryButton);
+
         // Action listener for start shift button that reads the JSON file and puts the data into objects Product and StoreInfo
-        loadInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jsonToObject.parseJson();
-            }
+        loadInventoryButton.addActionListener(e -> {
+            jsonToObject.parseJson();
+
+            System.out.println("Store information loaded: " + jsonToObject.storeInfo.getStore_name());
+            System.out.println("Inventory loaded: " + jsonToObject.listOfProducts.size() + " items.");
         });
 
-        showListButton = new Button("Show List");
-        middlePanel.add(showListButton);
-
-        showListButton.addActionListener(new ActionListener() {
+        showInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Store Name: " + jsonToObject.storeInfo.getStore_name());
@@ -199,39 +167,26 @@ public class Frame1 extends Frame {
      * A "remove" button that removes the item by using the specific line number of that product shown in the invoice
      */
     private Panel createBottomPanel() {
-        Panel bottomPanel = new Panel(new GridLayout(4, 1));
+        Panel bottomPanel = new Panel(new GridLayout(3, 1));
 
-        // Group for the product label and text field
-        Panel productGroup = new Panel(new FlowLayout());
+        // Product Code
+        Panel codePanel = new Panel(new FlowLayout());
 
-        productGroup.add(new Label("Product:"));
-
-        productTextField = new TextField(10);
-        productGroup.add(productTextField);
-
-        // Now for the code label and the text input
-        Panel codeGroup = new Panel(new FlowLayout());
-
-        codeGroup.add(new Label("Code:"));
+        codePanel.add(new Label("Product Code:"));
 
         codeTextField = new TextField(10);
-        codeGroup.add(codeTextField);
+        codePanel.add(codeTextField);
 
-        // To contain the flow panels for product and code
-        Panel composite_Product_Code = new Panel(new GridLayout(2,1));
+        // Quantity
+        Panel quantityPanel = new Panel(new FlowLayout());
 
-        // The composite panel of the label and text field for product is added to the top of the bottom panel
-        composite_Product_Code.add(productGroup);
-        composite_Product_Code.add(codeGroup);
-
-        // ************************************************************************************************************
-        // Quantity middle panel for the bottom panel
-        Panel quantityGroup = new Panel(new FlowLayout());
-
-        quantityGroup.add(new Label("Quantity:"));
+        quantityPanel.add(new Label("Quantity:"));
 
         quantityTextField = new TextField(10);
-        quantityGroup.add(quantityTextField);
+        quantityPanel.add(quantityTextField);
+
+        bottomPanel.add(codePanel);
+        bottomPanel.add(quantityPanel);
 
         // ************************************************************************************************************
         // Add and remove buttons for the bottom part of the bottom panel
@@ -244,11 +199,6 @@ public class Frame1 extends Frame {
         addRemoveButtonGroup.add(removeButton);
 
         // ************************************************************************************************************
-        // Spacer
-        bottomPanel.add(new Label());
-
-        bottomPanel.add(composite_Product_Code);
-        bottomPanel.add(quantityGroup);
         bottomPanel.add(addRemoveButtonGroup);
 
         return bottomPanel;
