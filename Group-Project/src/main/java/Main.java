@@ -7,8 +7,8 @@ public class Main {
         JsonToObject jsonToObject = new JsonToObject();
 
         // jsonToObject is passed through the constructor, so that both frame classes can access the data of the object
-        Frame1 frame1 = new Frame1(jsonToObject);
         Frame2 frame2 = new Frame2(jsonToObject);
+        Frame1 frame1 = new Frame1(jsonToObject,frame2);
 
         /* Instantiation for JsonToObject now under the action listener for loadInventoryButton
         * Currently show list is not working as intended, but for now the information is printed to the console
