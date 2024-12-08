@@ -135,9 +135,7 @@ public class Frame1 extends Frame {
             System.out.println("Inventory loaded: " + jsonToObject.listOfProducts.size() + " items.");
         });
 
-        showInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        showInventoryButton.addActionListener(e -> {
                 System.out.println("Store Name: " + jsonToObject.storeInfo.getStore_name());
                 System.out.println("Phone Number: " + jsonToObject.storeInfo.getPhone_number());
                 System.out.println("City: " + jsonToObject.storeInfo.getCity());
@@ -151,7 +149,43 @@ public class Frame1 extends Frame {
                     System.out.println("Description: " + product.getDescription());
                     System.out.println("---------------");
                 }
+
+                Frame inventoryFrame = new Frame("Inventory");
+                inventoryFrame.setSize(400, 600);
+                inventoryFrame.setLayout(new BorderLayout());
+
+                // Makes a text area to display inventory
+                TextArea inventoryTextArea = new TextArea();
+                // Cannot be edited manually when run
+                inventoryTextArea.setEditable(false);
+
+            inventoryTextArea.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
+            inventoryTextArea.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
+            inventoryTextArea.append("City: " + jsonToObject.storeInfo.getCity() + '\n');
+            inventoryTextArea.append("State: " + jsonToObject.storeInfo.getState() + '\n');
+            inventoryTextArea.append("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage() + '\n');
+
+            // Extra line break for clarity
+            inventoryTextArea.append("\n");
+
+            for (Product product : jsonToObject.listOfProducts) {
+                inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
+                inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
+                inventoryTextArea.append("Price: " + product.getPrice() + '\n');
+                inventoryTextArea.append("Description: " + product.getDescription() + '\n');
+                inventoryTextArea.append("---------------" + '\n');
             }
+
+            inventoryFrame.add(inventoryTextArea, BorderLayout.CENTER);
+            inventoryFrame.setVisible(true);;
+
+            // Closes windows of inventory
+            inventoryFrame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    // Release resources used by selected Frame
+                    inventoryFrame.dispose();
+                }
+            });
         });
 
         return middlePanel;
