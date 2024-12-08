@@ -13,13 +13,17 @@ public class Product {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("quantity")
+    private int quantity;
+
     public Product() {}
 
-    public Product(String product_name, int product_code, double price, String description) {
+    public Product(String product_name, int product_code, double price, String description, int quantity) {
         this.product_name = product_name;
         this.product_code = product_code;
         this.price = price;
         this.description = description;
+        this.quantity=quantity;
     }
 
     public int getProductCode() {
@@ -52,5 +56,11 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
