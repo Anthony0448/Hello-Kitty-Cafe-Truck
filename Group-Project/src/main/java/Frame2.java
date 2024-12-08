@@ -142,6 +142,7 @@ public class Frame2 extends Frame {
 
         return summaryPanel;
     }
+
     private void recalculateTotals(TextField salesTaxField, TextField discountField, Checkbox discountCheckbox) {
         // get item prices from the JSON 
         double totalBeforeTax = 0.0;

@@ -136,28 +136,13 @@ public class Frame1 extends Frame {
         });
 
         showInventoryButton.addActionListener(e -> {
-                System.out.println("Store Name: " + jsonToObject.storeInfo.getStore_name());
-                System.out.println("Phone Number: " + jsonToObject.storeInfo.getPhone_number());
-                System.out.println("City: " + jsonToObject.storeInfo.getCity());
-                System.out.println("State: " + jsonToObject.storeInfo.getState());
-                System.out.println("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage());
-
-                for (Product product : jsonToObject.listOfProducts) {
-                    System.out.println("Product Name: " + product.getProductName());
-                    System.out.println("Product Code: " + product.getProductCode());
-                    System.out.println("Price: " + product.getPrice());
-                    System.out.println("Description: " + product.getDescription());
-                    System.out.println("---------------");
-                }
-
-                Frame inventoryFrame = new Frame("Inventory");
-                inventoryFrame.setSize(400, 600);
-                inventoryFrame.setLayout(new BorderLayout());
-
-                // Makes a text area to display inventory
-                TextArea inventoryTextArea = new TextArea();
-                // Cannot be edited manually when run
-                inventoryTextArea.setEditable(false);
+            Frame inventoryFrame = new Frame("Inventory");
+            inventoryFrame.setSize(400, 600);
+            inventoryFrame.setLayout(new BorderLayout());
+            // Makes a text area to display inventory
+            TextArea inventoryTextArea = new TextArea();
+            // Cannot be edited manually when run
+            inventoryTextArea.setEditable(false);
 
             inventoryTextArea.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
             inventoryTextArea.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
@@ -176,7 +161,13 @@ public class Frame1 extends Frame {
                 inventoryTextArea.append("---------------" + '\n');
             }
 
+            Button closeInventoryButton = new Button("Close");
+            closeInventoryButton.addActionListener(e1 -> {
+                inventoryFrame.dispose();
+            });
+
             inventoryFrame.add(inventoryTextArea, BorderLayout.CENTER);
+            inventoryFrame.add(closeInventoryButton, BorderLayout.SOUTH);
             inventoryFrame.setVisible(true);;
 
             // Closes windows of inventory
@@ -235,8 +226,21 @@ public class Frame1 extends Frame {
         addButton.addActionListener(e -> {
             // Code to handle adding a product
             String productCode = codeTextField.getText();
-            String quantity = quantityTextField.getText();
-            System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
+            int quantity = Integer.parseInt(quantityTextField.getText());
+
+            // If object is found
+            if (jsonToObject.getProductByCode(productCode) != null) {
+                System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
+                // Change object quantity of matching productCode
+                jsonToObject.getProductByCode(productCode).setQuantity(quantity);
+                System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
+
+
+                System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
+            }
+            else {
+                System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
+            }
         });
     
         removeButton.addActionListener(e -> {
@@ -244,7 +248,6 @@ public class Frame1 extends Frame {
             String productCode = codeTextField.getText();
             System.out.println("Removed product with code: " + productCode);
         });
-    
 
         return bottomPanel;
     }

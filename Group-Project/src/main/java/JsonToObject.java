@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class JsonToObject {
     public List<Product> listOfProducts;
@@ -37,4 +38,19 @@ public class JsonToObject {
             e.printStackTrace();
         }
     }
+
+    public Product getProductByCode(String productCode) {
+        if (listOfProducts != null) {
+            for (Product product : listOfProducts) {
+                // Compare object String values
+                if (Objects.equals(product.getProductCode(), productCode)) {
+                    return product;
+                }
+            }
+        }
+
+        // Not found
+        return null;
+    }
+
 }

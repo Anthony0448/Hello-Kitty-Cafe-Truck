@@ -5,7 +5,7 @@ public class Product {
     private String product_name;
 
     @JsonProperty("product_code")
-    private int product_code;
+    private String product_code;
 
     @JsonProperty("price")
     private double price;
@@ -18,7 +18,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(String product_name, int product_code, double price, String description, int quantity) {
+    public Product(String product_name, String product_code, double price, String description, int quantity) {
         this.product_name = product_name;
         this.product_code = product_code;
         this.price = price;
@@ -26,11 +26,11 @@ public class Product {
         this.quantity=quantity;
     }
 
-    public int getProductCode() {
+    public String getProductCode() {
         return product_code;
     }
 
-    public void setProductCode(int product_code) {
+    public void setProductCode(String product_code) {
         this.product_code = product_code;
     }
 
