@@ -29,11 +29,13 @@ public class Frame1 extends Frame {
     protected TextField quantityTextField;
     protected Button addButton;
     protected Button removeButton;
-
+    private Frame2 frame2;
+    
     // Constructor for Frame1 to call each Panel that makes up Frame1
-    public Frame1(JsonToObject jsonToObject) {
+    public Frame1(JsonToObject jsonToObject, Frame2 frame2) {
         // By reference
         this.jsonToObject = jsonToObject;
+        this.frame2 = frame2;
 
         setLayout(new BorderLayout());
 
@@ -241,12 +243,18 @@ public class Frame1 extends Frame {
             else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
             }
+            frame2.updateItemsTextArea(productCode, quantity);
         });
     
         removeButton.addActionListener(e -> {
             // Code to handle removing a product
             String productCode = codeTextField.getText();
-            System.out.println("Removed product with code: " + productCode);
+
+            if (jsonToObject.getProductByCode(productCode) != null) {
+                jsonToObject.getProductByCode(productCode).setQuantity(0);
+            }
+
+                System.out.println("Removed product with code: " + productCode);
         });
 
         return bottomPanel;
