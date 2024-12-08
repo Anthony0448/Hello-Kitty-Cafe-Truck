@@ -12,8 +12,8 @@ public class Frame1 extends Frame {
     protected Button startShiftButton;
     protected Button endShiftButton;
 
-    protected String firstName;
-    protected String lastName;
+    protected String firstNameString;
+    protected String lastNameString;
 
     // Middle panel
     protected Button loadInventoryButton;
@@ -83,11 +83,11 @@ public class Frame1 extends Frame {
 
         // Action listener for saving first name and last name to corresponding variable on button press
         startShiftButton.addActionListener(e -> {
-            firstName = firstNameTextField.getText();
-            lastName = lastNameTextField.getText();
+            firstNameString = firstNameTextField.getText();
+            lastNameString = lastNameTextField.getText();
 
             startTime.setText(ZonedDateTime.now().toString());
-            System.out.println("Shift started for: " + firstName + " " + lastName + " at: " + startTime.getText());
+            System.out.println("Shift started for: " + firstNameString + " " + lastNameString + " at: " + startTime.getText());
         });
 
         endShiftButton.addActionListener(e -> {
@@ -145,7 +145,8 @@ public class Frame1 extends Frame {
             // Cannot be edited manually when run
             inventoryTextArea.setEditable(false);
 
-            // If the
+            /* If the product code contains an asterisk, show the inventory of products with that sequence of code
+            * otherwise full inventory */
             if (productCodeTextField.getText().contains("*")) {
                 String productCodeTextFieldNoAsterisk = productCodeTextField.getText().replace("*", "");
 
@@ -159,15 +160,6 @@ public class Frame1 extends Frame {
                     }
                 }
             } else {
-                inventoryTextArea.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
-                inventoryTextArea.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
-                inventoryTextArea.append("City: " + jsonToObject.storeInfo.getCity() + '\n');
-                inventoryTextArea.append("State: " + jsonToObject.storeInfo.getState() + '\n');
-                inventoryTextArea.append("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage() + '\n');
-
-                // Extra line break for clarity
-                inventoryTextArea.append("\n");
-
                 for (Product product : jsonToObject.listOfProducts) {
                     inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
                     inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
