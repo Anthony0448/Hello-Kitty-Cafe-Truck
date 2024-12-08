@@ -43,6 +43,10 @@ public class Frame2 extends Frame {
 
         return itemsPanel;
     }
+    //Should add product and quantity to TextArea
+    public void updateItemsTextArea(String product, int quantity) {
+        itemsTextArea.append("Items: " + product + ", Quantity: " + quantity + "\n");
+    }
 
     private Panel createSummaryPanel() {
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
