@@ -142,4 +142,25 @@ public class Frame2 extends Frame {
 
         return summaryPanel;
     }
-}
+    private void recalculateTotals(TextField salesTaxField, TextField discountField, Checkbox discountCheckbox) {
+        // get item prices from the JSON 
+        double totalBeforeTax = 0.0;
+        for (Product product : jsonToObject.listOfProducts) {
+            totalBeforeTax += product.getPrice() * product.getQuantity(); 
+        }
+        // tax and discount rates
+        double taxRate = Double.parseDouble(salesTaxField.getText()) / 100.0;
+        double discountRate = discountCheckbox.getState() ? Double.parseDouble(discountField.getText()) / 100.0 : 0;
+    
+        // Calculate totals
+        double totalWithTax = totalBeforeTax * (1 + taxRate);
+        double discountApplied = totalWithTax * discountRate;
+        double grandTotal = totalWithTax - discountApplied;
+    
+        // Update the text fields
+        totalBeforeField.setText(String.format("%.2f", totalBeforeTax));         // Total before tax
+        totalWithTaxField.setText(String.format("%.2f", totalWithTax));         // Total with tax
+        discountAppliedField.setText(String.format("%.2f", discountApplied));  // Discount applied
+        grandTotalField.setText(String.format("%.2f", grandTotal));            // Grand total
+    }
+}    
