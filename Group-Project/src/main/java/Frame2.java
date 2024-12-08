@@ -22,7 +22,7 @@ public class Frame2 extends Frame {
         add(createSummaryPanel());
 
         setTitle("Invoice");
-        setSize(600, 600);
+        setSize(460, 500);
         setVisible(true);
 
         // Stops program when closing Frame
