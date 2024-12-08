@@ -225,15 +225,26 @@ public class Frame1 extends Frame {
         // ************************************************************************************************************
         // Add and remove buttons for the bottom part of the bottom panel
         Panel addRemoveButtonGroup = new Panel(new FlowLayout());
-
         addButton = new Button("Add");
         addRemoveButtonGroup.add(addButton);
-
         removeButton = new Button("Remove");
         addRemoveButtonGroup.add(removeButton);
-
-        // ************************************************************************************************************
         bottomPanel.add(addRemoveButtonGroup);
+    
+        // Adding action listeners to buttons
+        addButton.addActionListener(e -> {
+            // Code to handle adding a product
+            String productCode = codeTextField.getText();
+            String quantity = quantityTextField.getText();
+            System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
+        });
+    
+        removeButton.addActionListener(e -> {
+            // Code to handle removing a product
+            String productCode = codeTextField.getText();
+            System.out.println("Removed product with code: " + productCode);
+        });
+    
 
         return bottomPanel;
     }
