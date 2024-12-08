@@ -47,7 +47,14 @@ public class Frame2 extends Frame {
     public void updateItemsTextArea(String product, int quantity) {
         itemsTextArea.append("Items: " + product + ", Quantity: " + quantity + "\n");
     }
-
+    //Is supposed to update the screen
+    public void updateInventoryDisplay() {
+        if (jsonToObject != null && jsonToObject.listOfProducts != null && !jsonToObject.listOfProducts.isEmpty()) {
+            // Remove the last product in the list
+            Product removedProduct = jsonToObject.listOfProducts.remove(jsonToObject.listOfProducts.size() - 1);
+            
+        }    
+    }
     private Panel createSummaryPanel() {
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
 
