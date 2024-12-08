@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
@@ -25,10 +23,11 @@ public class Frame1 extends Frame {
 
     // Bottom panel
     protected TextField productTextField;
-    protected TextField codeTextField;
-    protected TextField quantityTextField;
+    protected TextField productCodeTextField;
+    protected TextField productQuantityTextField;
     protected Button addButton;
     protected Button removeButton;
+
     private Frame2 frame2;
     
     // Constructor for Frame1 to call each Panel that makes up Frame1
@@ -146,21 +145,36 @@ public class Frame1 extends Frame {
             // Cannot be edited manually when run
             inventoryTextArea.setEditable(false);
 
-            inventoryTextArea.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
-            inventoryTextArea.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
-            inventoryTextArea.append("City: " + jsonToObject.storeInfo.getCity() + '\n');
-            inventoryTextArea.append("State: " + jsonToObject.storeInfo.getState() + '\n');
-            inventoryTextArea.append("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage() + '\n');
+            // If the
+            if (productCodeTextField.getText().contains("*")) {
+                String productCodeTextFieldNoAsterisk = productCodeTextField.getText().replace("*", "");
 
-            // Extra line break for clarity
-            inventoryTextArea.append("\n");
+                for (Product product : jsonToObject.listOfProducts) {
+                    if (product.getProductCode().contains(productCodeTextFieldNoAsterisk)) {
+                        inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
+                        inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
+                        inventoryTextArea.append("Price: " + product.getPrice() + '\n');
+                        inventoryTextArea.append("Description: " + product.getDescription() + '\n');
+                        inventoryTextArea.append("---------------" + '\n');
+                    }
+                }
+            } else {
+                inventoryTextArea.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
+                inventoryTextArea.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
+                inventoryTextArea.append("City: " + jsonToObject.storeInfo.getCity() + '\n');
+                inventoryTextArea.append("State: " + jsonToObject.storeInfo.getState() + '\n');
+                inventoryTextArea.append("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage() + '\n');
 
-            for (Product product : jsonToObject.listOfProducts) {
-                inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
-                inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
-                inventoryTextArea.append("Price: " + product.getPrice() + '\n');
-                inventoryTextArea.append("Description: " + product.getDescription() + '\n');
-                inventoryTextArea.append("---------------" + '\n');
+                // Extra line break for clarity
+                inventoryTextArea.append("\n");
+
+                for (Product product : jsonToObject.listOfProducts) {
+                    inventoryTextArea.append("Product Name: " + product.getProductName() + '\n');
+                    inventoryTextArea.append("Product Code: " + product.getProductCode() + '\n');
+                    inventoryTextArea.append("Price: " + product.getPrice() + '\n');
+                    inventoryTextArea.append("Description: " + product.getDescription() + '\n');
+                    inventoryTextArea.append("---------------" + '\n');
+                }
             }
 
             Button closeInventoryButton = new Button("Close");
@@ -201,16 +215,16 @@ public class Frame1 extends Frame {
 
         codePanel.add(new Label("Product Code:"));
 
-        codeTextField = new TextField(10);
-        codePanel.add(codeTextField);
+        productCodeTextField = new TextField(10);
+        codePanel.add(productCodeTextField);
 
         // Quantity
         Panel quantityPanel = new Panel(new FlowLayout());
 
         quantityPanel.add(new Label("Quantity:"));
 
-        quantityTextField = new TextField(10);
-        quantityPanel.add(quantityTextField);
+        productQuantityTextField = new TextField(10);
+        quantityPanel.add(productQuantityTextField);
 
         bottomPanel.add(codePanel);
         bottomPanel.add(quantityPanel);
@@ -227,8 +241,8 @@ public class Frame1 extends Frame {
         // Adding action listeners to buttons
         addButton.addActionListener(e -> {
             // Code to handle adding a product
-            String productCode = codeTextField.getText();
-            int quantity = Integer.parseInt(quantityTextField.getText());
+            String productCode = productCodeTextField.getText();
+            int quantity = Integer.parseInt(productQuantityTextField.getText());
 
             // If object is found
             if (jsonToObject.getProductByCode(productCode) != null) {
@@ -244,12 +258,13 @@ public class Frame1 extends Frame {
             else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
             }
+
             frame2.updateItemsTextArea(productCode, quantity);
         });
 
         removeButton.addActionListener(e -> {
             // Code to handle removing a product
-            String productCode = codeTextField.getText();
+            String productCode = productCodeTextField.getText();
 
             if (jsonToObject.getProductByCode(productCode) != null) {
                 jsonToObject.getProductByCode(productCode).setQuantity(0);
