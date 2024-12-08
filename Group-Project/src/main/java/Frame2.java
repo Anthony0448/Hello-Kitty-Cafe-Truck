@@ -107,10 +107,12 @@ public class Frame2 extends Frame {
 
                 // Create the receipt content
                 StringBuilder receiptContent = new StringBuilder();
-                receiptContent.append("Hello Kitty Stationary Shop\n");
-                receiptContent.append("San Jose, California\n");
-                receiptContent.append("Phone: 123-456-7890\n");
-                receiptContent.append("Date: " + new Date() + "\n\n");
+
+                receiptContent.append("Store Name: " + jsonToObject.storeInfo.getStore_name() + '\n');
+                receiptContent.append("Phone Number: " + jsonToObject.storeInfo.getPhone_number() + '\n');
+                receiptContent.append("City: " + jsonToObject.storeInfo.getCity() + '\n');
+                receiptContent.append("State: " + jsonToObject.storeInfo.getState() + '\n');
+                receiptContent.append("Tax Percentage: " + jsonToObject.storeInfo.getTax_percentage() + '\n');
 
                 receiptContent.append("Items:\n");
                 receiptContent.append(itemsTextArea.getText()).append("\n\n");
