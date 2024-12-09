@@ -72,7 +72,16 @@ public class Frame2 extends Frame {
         }    
     }
     public void clearItemsTextArea(Product removedProduct) {
-        itemsTextArea.setText(""); 
+        String text = itemsTextArea.getText();
+        int lastNewlineIndex = text.lastIndexOf("\n");
+
+        if (lastNewlineIndex != -1) {
+            // Removes the last line
+            text = text.substring(0, lastNewlineIndex);
+            itemsTextArea.setText(text);
+        } else {
+            itemsTextArea.setText("");
+        }
     }
     private Panel createSummaryPanel() {
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
