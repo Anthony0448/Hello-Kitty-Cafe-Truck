@@ -18,13 +18,13 @@ public class Frame2 extends Frame {
     public Frame2(JsonToObject jsonToObject) {
         this.jsonToObject = jsonToObject;
 
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BorderLayout());
 
-        add(createItemsPanel());
-        add(createSummaryPanel());
+        add(createItemsPanel(), BorderLayout.CENTER);
+        add(createSummaryPanel(), BorderLayout.SOUTH);
 
         setTitle("Invoice");
-        setSize(460, 500);
+        setSize(555, 500);
         setVisible(true);
 
         // Stops program when closing Frame
@@ -41,6 +41,7 @@ public class Frame2 extends Frame {
 
         itemsTextArea = new TextArea();
         itemsTextArea.setEditable(false);
+        // Make text area the center
         itemsPanel.add(itemsTextArea, BorderLayout.CENTER);
 
         return itemsPanel;
@@ -64,7 +65,7 @@ public class Frame2 extends Frame {
     private Panel createSummaryPanel() {
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
         // Sub-panel for tax, discount, and totals
-        Panel taxDiscountPanel = new Panel(new GridLayout(5, 2));
+        Panel taxDiscountPanel = new Panel(new GridLayout(4, 2));
 
         taxDiscountPanel.add(new Label("Sales Tax (%):"));
         salesTaxField = new TextField("9.38");
