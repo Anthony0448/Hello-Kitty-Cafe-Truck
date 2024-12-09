@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
 public class Frame1 extends Frame {
     protected JsonToObject jsonToObject;
@@ -13,9 +12,6 @@ public class Frame1 extends Frame {
     protected Button startShiftButton;
     protected Button endShiftButton;
 
-    protected String firstNameString;
-    protected String lastNameString;
-
     // Middle panel
     protected Button loadInventoryButton;
     protected Button showInventoryButton;
@@ -23,14 +19,13 @@ public class Frame1 extends Frame {
     protected TextField endTime;
 
     // Bottom panel
-    protected TextField productTextField;
-    protected TextField productCodeTextField;
-    protected TextField productQuantityTextField;
+    protected TextField codeTextField;
+    protected TextField quantityTextField;
     protected Button addButton;
     protected Button removeButton;
 
     private Frame2 frame2;
-    
+
     // Constructor for Frame1 to call each Panel that makes up Frame1
     public Frame1(JsonToObject jsonToObject, Frame2 frame2) {
         // By reference
@@ -63,7 +58,6 @@ public class Frame1 extends Frame {
 
         // namePanel to hold a 2x2 of first name, first name input, last name, last name input
         Panel namePanel = new Panel(new GridLayout(2, 2));
-
         // Label shows the text on the Panel
         namePanel.add(new Label("First Name:"));
         firstNameTextField = new TextField(10);
@@ -75,7 +69,6 @@ public class Frame1 extends Frame {
 
         // ************************************************************************************************************
         Panel shiftPanel = new Panel(new FlowLayout());
-
         startShiftButton = new Button("Start Shift");
         shiftPanel.add(startShiftButton);
 
@@ -84,11 +77,11 @@ public class Frame1 extends Frame {
 
         // Action listener for saving first name and last name to corresponding variable on button press
         startShiftButton.addActionListener(e -> {
-            firstNameString = firstNameTextField.getText();
-            lastNameString = lastNameTextField.getText();
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
 
             startTime.setText(ZonedDateTime.now().toString());
-            System.out.println("Shift started for: " + firstNameString + " " + lastNameString + " at: " + startTime.getText());
+            System.out.println("Shift started for: " + firstName + " " + lastName + " at " + ZonedDateTime.now());
         });
 
         endShiftButton.addActionListener(e -> {
@@ -96,13 +89,14 @@ public class Frame1 extends Frame {
         });
 
         // ************************************************************************************************************
-
         // Time display
         Panel timePanel = new Panel(new GridLayout(2, 2));
-        timePanel.add(new Label("Start Time:"));
+
+        timePanel.add(new Label("Start Time: "));
         startTime = new TextField(20);
         timePanel.add(startTime);
-        timePanel.add(new Label("End Time:"));
+
+        timePanel.add(new Label("End Time: "));
         endTime = new TextField(20);
         timePanel.add(endTime);
 
@@ -129,27 +123,35 @@ public class Frame1 extends Frame {
         showInventoryButton = new Button("Show Inventory");
         middlePanel.add(showInventoryButton);
 
-        // Action listener for start shift button that reads the JSON file and puts the data into objects Product and StoreInfo
         loadInventoryButton.addActionListener(e -> {
             jsonToObject.parseJson();
 
             System.out.println("Store information loaded: " + jsonToObject.storeInfo.getStore_name());
             System.out.println("Inventory loaded: " + jsonToObject.listOfProducts.size() + " items.");
+            frame2.updateItemsTextArea();
         });
 
         showInventoryButton.addActionListener(e -> {
             Frame inventoryFrame = new Frame("Inventory");
             inventoryFrame.setSize(400, 600);
             inventoryFrame.setLayout(new BorderLayout());
-            // Makes a text area to display inventory
+
+            // Closes windows of inventory
+            inventoryFrame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    // Release resources used by selected Frame
+                    inventoryFrame.dispose();
+                }
+            });
+
             TextArea inventoryTextArea = new TextArea();
             // Cannot be edited manually when run
             inventoryTextArea.setEditable(false);
 
             /* If the product code contains an asterisk, show the inventory of products with that sequence of code
             * otherwise full inventory */
-            if (productCodeTextField.getText().contains("*")) {
-                String productCodeTextFieldNoAsterisk = productCodeTextField.getText().replace("*", "");
+            if (codeTextField.getText().contains("*")) {
+                String productCodeTextFieldNoAsterisk = codeTextField.getText().replace("*", "");
 
                 // Counter to display no search results found if no products match the code
                 boolean successfulSearch = false;
@@ -181,21 +183,13 @@ public class Frame1 extends Frame {
             }
 
             Button closeInventoryButton = new Button("Close");
-            closeInventoryButton.addActionListener(e1 -> {
-                inventoryFrame.dispose();
-            });
+            // Button to close inventory frame
+            closeInventoryButton.addActionListener(e1 -> inventoryFrame.dispose());
 
             inventoryFrame.add(inventoryTextArea, BorderLayout.CENTER);
             inventoryFrame.add(closeInventoryButton, BorderLayout.SOUTH);
-            inventoryFrame.setVisible(true);;
 
-            // Closes windows of inventory
-            inventoryFrame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    // Release resources used by selected Frame
-                    inventoryFrame.dispose();
-                }
-            });
+            inventoryFrame.setVisible(true);
         });
 
         return middlePanel;
@@ -208,26 +202,23 @@ public class Frame1 extends Frame {
      *
      * Two buttons:
      * An "add" button to add the item that is typed in the text field
-     * A "remove" button that removes the item by using the specific line number of that product shown in the invoice
+     * A "remove" button that removes the item from the invoice
      */
     private Panel createBottomPanel() {
         Panel bottomPanel = new Panel(new GridLayout(3, 1));
 
-        // Product Code
+        // Product code stuff
         Panel codePanel = new Panel(new FlowLayout());
-
         codePanel.add(new Label("Product Code:"));
-
-        productCodeTextField = new TextField(10);
-        codePanel.add(productCodeTextField);
+        codeTextField = new TextField(10);
+        codePanel.add(codeTextField);
 
         // Quantity
         Panel quantityPanel = new Panel(new FlowLayout());
-
         quantityPanel.add(new Label("Quantity:"));
 
-        productQuantityTextField = new TextField(10);
-        quantityPanel.add(productQuantityTextField);
+        quantityTextField = new TextField(10);
+        quantityPanel.add(quantityTextField);
 
         bottomPanel.add(codePanel);
         bottomPanel.add(quantityPanel);
@@ -237,27 +228,28 @@ public class Frame1 extends Frame {
         Panel addRemoveButtonGroup = new Panel(new FlowLayout());
         addButton = new Button("Add");
         addRemoveButtonGroup.add(addButton);
+
         removeButton = new Button("Remove");
         addRemoveButtonGroup.add(removeButton);
+
         bottomPanel.add(addRemoveButtonGroup);
 
         // Adding action listeners to buttons
         addButton.addActionListener(e -> {
             // Code to handle adding a product
-            String productCode = productCodeTextField.getText();
-            int quantity = Integer.parseInt(productQuantityTextField.getText());
+            String productCode = codeTextField.getText();
+            int quantity = Integer.parseInt(quantityTextField.getText());
 
             // If object is found
             if (jsonToObject.getProductByCode(productCode) != null) {
-                System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
+                // Set the quantity to equal current quantity and added quantity if add button is pressed twice!
+                jsonToObject.getProductByCode(productCode).setQuantity(
+                        jsonToObject.getProductByCode(productCode).getQuantity() + quantity);
+
                 // Change object quantity of matching productCode
-                jsonToObject.getProductByCode(productCode).setQuantity(quantity);
-                System.out.println(jsonToObject.getProductByCode(productCode).getQuantity());
+                System.out.println("Added product with code: " + productCode + ", Quantity: " + quantity);
 
-                System.out.println("Added product " + jsonToObject.getProductByCode(productCode).getProductName() +
-                        " with code: " + productCode + " and quantity: " + quantity);
-
-                frame2.updateItemsTextArea(productCode, quantity);
+                System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
             }
             else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
@@ -284,14 +276,21 @@ public class Frame1 extends Frame {
 
         removeButton.addActionListener(e -> {
             // Code to handle removing a product
-            String productCode = productCodeTextField.getText();
+            String productCode = codeTextField.getText();
 
+        /* If the product of the given product code exists the remove button sets the quantity of that product to zero
+        * to set up the invoice printing since that checks the quantity of each item */
             if (jsonToObject.getProductByCode(productCode) != null) {
+                // Removed from list so quantity is zero
                 jsonToObject.getProductByCode(productCode).setQuantity(0);
-            }
 
-            System.out.println("Removed product " + jsonToObject.getProductByCode(productCode).getProductName() +
-                    " with code: " + productCode);
+                System.out.println("Removed product with code: " + productCode);
+
+                // Uses reference to frame2 to update the text area
+                frame2.updateItemsTextArea();
+            } else {
+                System.out.println("ERROR: Product code not found: " + productCode);
+            }
         });
 
         return bottomPanel;
