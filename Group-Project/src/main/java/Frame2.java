@@ -35,6 +35,9 @@ public class Frame2 extends Frame {
                 System.exit(0);
             }
         });
+        salesTaxField = new TextField();
+        discountField = new TextField();
+        discountCheckbox = new Checkbox("Discount");
         createSummaryPanel();
     }
 
@@ -54,9 +57,9 @@ public class Frame2 extends Frame {
      if (p.getProductCode().equals(product)) {
         itemsTextArea.append("Item: " + p.getProductName() + ", Quantity: " + p.getQuantity() + "\n");
     }
-
+    }
     recalculateTotals(salesTaxField, discountField, discountCheckbox);
-}
+
 }
     //Is supposed to update the screen
     public void updateInventoryDisplay() {
