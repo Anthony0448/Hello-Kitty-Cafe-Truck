@@ -1,8 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Date;
-
-import javax.swing.JTextArea;
 
 public class Frame2 extends Frame {
     // The button and text fields/area are now all class variables, so that other methods can access them.
@@ -12,6 +9,10 @@ public class Frame2 extends Frame {
     TextField totalWithTaxField;
     TextField discountAppliedField;
     TextField grandTotalField;
+    private TextField salesTaxField;
+    private TextField discountField;
+    private Checkbox discountCheckbox;
+
 
     protected JsonToObject jsonToObject;
 
@@ -34,6 +35,7 @@ public class Frame2 extends Frame {
                 System.exit(0);
             }
         });
+        createSummaryPanel();
     }
 
     private Panel createItemsPanel() {
@@ -52,6 +54,8 @@ public class Frame2 extends Frame {
      if (p.getProductCode().equals(product)) {
         itemsTextArea.append("Item: " + p.getProductName() + ", Quantity: " + p.getQuantity() + "\n");
     }
+
+    recalculateTotals(salesTaxField, discountField, discountCheckbox);
 }
 }
     //Is supposed to update the screen
@@ -116,7 +120,6 @@ public class Frame2 extends Frame {
         printReceiptButton = new Button("Print Receipt");
         buttonPanel.add(printReceiptButton);
         summaryPanel.add(buttonPanel);
-
         // Receipt Frame Logic
         printReceiptButton.addActionListener(new ActionListener() {
             @Override
@@ -162,6 +165,9 @@ public class Frame2 extends Frame {
                 });
             }
         });
+        discountCheckbox.addItemListener(e -> recalculateTotals(salesTaxField, discountField, discountCheckbox));
+        salesTaxField.addTextListener(e -> recalculateTotals(salesTaxField, discountField, discountCheckbox));
+        discountField.addTextListener(e -> recalculateTotals(salesTaxField, discountField, discountCheckbox));
 
         return summaryPanel;
     }
@@ -187,4 +193,5 @@ public class Frame2 extends Frame {
         discountAppliedField.setText(String.format("%.2f", discountApplied));  // Discount applied
         grandTotalField.setText(String.format("%.2f", grandTotal));            // Grand total
     }
+
 }    
