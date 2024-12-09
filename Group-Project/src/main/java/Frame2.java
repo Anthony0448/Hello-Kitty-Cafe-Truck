@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 
+import javax.swing.JTextArea;
+
 public class Frame2 extends Frame {
     // The button and text fields/area are now all class variables, so that other methods can access them.
     Button printReceiptButton;
@@ -43,16 +45,20 @@ public class Frame2 extends Frame {
 
         return itemsPanel;
     }
+
     //Should add product and quantity to TextArea
     public void updateItemsTextArea(String product, int quantity) {
-        itemsTextArea.append("Items: " + product + ", Quantity: " + quantity + "\n");
+    for (Product p : jsonToObject.listOfProducts) {
+     if (p.getProductCode().equals(product)) {
+        itemsTextArea.append("Item: " + p.getProductName() + ", Quantity: " + p.getQuantity() + "\n");
     }
+}
+}
     //Is supposed to update the screen
     public void updateInventoryDisplay() {
         if (jsonToObject != null && jsonToObject.listOfProducts != null && !jsonToObject.listOfProducts.isEmpty()) {
             // Remove the last product in the list
-            Product removedProduct = jsonToObject.listOfProducts.remove(jsonToObject.listOfProducts.size() - 1);
-            
+            Product removedProduct = jsonToObject.listOfProducts.remove(jsonToObject.listOfProducts.size() - 1);  
         }    
     }
     private Panel createSummaryPanel() {
