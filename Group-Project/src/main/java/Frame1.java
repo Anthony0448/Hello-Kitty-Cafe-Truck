@@ -249,9 +249,8 @@ public class Frame1 extends Frame {
                 // Change object quantity of matching productCode
                 System.out.println("Added product with code: " + productCode + ", Quantity: " + quantity);
 
-                System.out.println("Added product with code: " + productCode + " and quantity: " + quantity);
-            }
-            else {
+                frame2.updateItemsTextArea();
+            } else {
                 System.out.println("ERROR 404 PRODUCT CODE: " + productCode + " NOT FOUND!");
 
                 Frame notFound = new Frame("Invalid Product Code");
@@ -269,9 +268,6 @@ public class Frame1 extends Frame {
 
                 notFound.setVisible(true);
             }
-
-            // Placed into if statement
-            //frame2.updateItemsTextArea(productCode, quantity);
         });
 
         removeButton.addActionListener(e -> {
