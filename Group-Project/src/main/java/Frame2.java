@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Frame2 extends Frame {
+    // The button and text fields/area are now all class variables, so that other methods can access them if needed
     Button printReceiptButton;
     TextArea itemsTextArea;
     TextField totalBeforeField;
@@ -26,6 +27,7 @@ public class Frame2 extends Frame {
         setSize(460, 500);
         setVisible(true);
 
+        // Stops program when closing Frame
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -36,26 +38,32 @@ public class Frame2 extends Frame {
     private Panel createItemsPanel() {
         Panel itemsPanel = new Panel(new BorderLayout());
         itemsPanel.add(new Label("Items and Quantities"), BorderLayout.NORTH);
+
         itemsTextArea = new TextArea();
         itemsTextArea.setEditable(false);
         itemsPanel.add(itemsTextArea, BorderLayout.CENTER);
+
         return itemsPanel;
     }
 
     public void updateItemsTextArea() {
         // Clear the existing text to essentially repaint the text area
         itemsTextArea.setText("");
+
+        // Checks the quantity of each item in the listOfProducts to add to invoice if > 0
         for (Product product : jsonToObject.listOfProducts) {
             // If an item has been added then the quantity is greater than 0
             if (product.getQuantity() > 0) {
                 itemsTextArea.append("Item: " + product.getProductName() + ", Quantity: " + product.getQuantity() + "\n");
             }
         }
+
         recalculateTotals();
     }
 
     private Panel createSummaryPanel() {
         Panel summaryPanel = new Panel(new GridLayout(2, 1));
+        // Sub-panel for tax, discount, and totals
         Panel taxDiscountPanel = new Panel(new GridLayout(5, 2));
 
         taxDiscountPanel.add(new Label("Sales Tax (%):"));
@@ -97,6 +105,7 @@ public class Frame2 extends Frame {
         buttonPanel.add(printReceiptButton);
         summaryPanel.add(buttonPanel);
 
+        // Action listeners call local methods for clarity
         printReceiptButton.addActionListener(e -> printReceipt());
         discountCheckbox.addItemListener(e -> recalculateTotals());
         salesTaxField.addTextListener(e -> recalculateTotals());
@@ -107,6 +116,8 @@ public class Frame2 extends Frame {
 
     private void recalculateTotals() {
         double totalBeforeTax = 0.0;
+
+        // get item prices from the JSON
         for (Product product : jsonToObject.listOfProducts) {
             totalBeforeTax += product.getPrice() * product.getQuantity();
         }
@@ -118,6 +129,7 @@ public class Frame2 extends Frame {
         double discountApplied = totalWithTax * discountRate;
         double grandTotal = totalWithTax - discountApplied;
 
+        // Update text fields with values
         totalBeforeField.setText(String.format("%.2f", totalBeforeTax));
         totalWithTaxField.setText(String.format("%.2f", totalWithTax));
         discountAppliedField.setText(String.format("%.2f", discountApplied));
