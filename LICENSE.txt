@@ -1,0 +1,5 @@
+## License
+
+This project is not licensed for reuse. You may not copy, modify, or distribute this code without **explicit written permission** from the author.
+
+© 2024
